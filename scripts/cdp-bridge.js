@@ -5,6 +5,12 @@
  * via Chrome DevTools Protocol (CDP) on port 9222.
  * Reuses existing window/tabs without opening new windows.
  *
+ * 🛡️ 100% NON-INTRUSIVE BACKGROUND EXECUTION GUARANTEE:
+ * - Operates strictly via internal CDP WebSocket & Playwright synthetic DOM events.
+ * - NEVER moves physical OS mouse cursor or sends OS hardware keystrokes (no SendInput/robotjs).
+ * - User can freely work, type, game, or multitask in other windows without interference.
+ * - Background tabs are managed via CDP Target domain without stealing host window focus.
+ *
  * Commands:
  *   node cdp-bridge.js list-installed            List Chromium browsers detected on this system
  *   node cdp-bridge.js get-browser               Show active browser config and CDP status

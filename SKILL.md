@@ -14,9 +14,39 @@ This skill attaches to the user's real browser window via **Chrome DevTools Prot
 ## ⚡ Key Principles & Anti-Window Spam Rule
 
 1. **Re-use Existing Window**: Never launch a new browser instance if one is already running with CDP.
-2. **Chromium Universal**: Supports Microsoft Edge, Google Chrome, Brave, Arc, and Vivaldi out of the box.
-3. **Transparent to User**: The user sees the actions live in their browser.
-4. **Idempotent Connection**: Scripts automatically detect port `9222` and auto-launch the configured browser only when necessary.
+2. **100% Non-Intrusive Background Execution**: Never touch or hijack the user's physical mouse cursor or hardware keyboard. All automation runs inside the browser virtual context via CDP.
+3. **Chromium Universal**: Supports Microsoft Edge, Google Chrome, Brave, Arc, and Vivaldi out of the box.
+4. **Transparent to User**: The user can observe actions live without having their window focus stolen.
+5. **Idempotent Connection**: Scripts automatically detect port `9222` and auto-launch the configured browser only when necessary.
+
+---
+
+## 🛡️ MANDATORY: 100% Non-Intrusive Background Execution (Zero User Hardware Interference)
+
+**CRITICAL GUARANTEE**: This skill operates **entirely in the background** without ever hijacking or intercepting the user's hardware input.
+
+### 1. Zero Physical Hardware Interference
+- **NEVER move the operating system mouse cursor**: The real mouse pointer on screen remains 100% under the user's control.
+- **NEVER send OS-level hardware keystrokes**: No `SendInput` (Windows), `CGEventPost` (macOS), or `xdotool` (Linux).
+- **Work Uninterrupted**: The user can freely type in their code editor, chat, play games, or use any other application while the AI agent automates the browser simultaneously.
+
+### 2. Pure Virtual CDP & Synthetic DOM Events
+- All interactions (`click`, `fill`, `eval`, `open`, `newtab`) are dispatched exclusively via WebSocket JSON-RPC over the Chrome DevTools Protocol (`Page.*`, `Runtime.*`, `DOM.*`, `Input.*`).
+- Clicks and text inputs are synthetic events delivered directly into Chromium's internal rendering pipeline for the target web page. They exist solely inside the browser engine memory.
+
+### 3. Background Tab Management & No Focus Stealing
+- Tabs are opened and managed via background CDP targets (`Target.createTarget`).
+- Automated tasks do NOT force-focus or pull the browser window over the user's current foreground application.
+- The browser can remain minimized, partially occluded, or on a secondary virtual desktop without affecting automation reliability.
+
+### 4. Technical Distinction: CDP vs Desktop GUI Automation
+| Feature | Desktop GUI (PyAutoGUI, RobotJS, nut.js) | browser-cdp-skill (CDP) |
+|---|---|---|
+| **Mechanism** | OS-level mouse/keyboard event injection | Local WebSocket JSON-RPC to browser engine |
+| **Physical Mouse** | Hijacks & moves user's actual cursor | **Zero movement**; virtual coordinates in memory |
+| **Hardware Keyboard**| Types into whatever window has OS focus | **Zero OS keystrokes**; targeted DOM input dispatch |
+| **User Multitasking** | Completely blocks user (hands-off required) | **100% usable**; user works concurrently without clash |
+| **Window State** | Window must be in foreground & visible | Works in background, minimized, or behind windows |
 
 ---
 

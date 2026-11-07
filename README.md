@@ -16,10 +16,36 @@ Standard automation tools (such as Playwright `launch()` or Selenium) spawn a br
 
 browser-cdp-skill solves this problem:
 - Single Window Architecture: Attaches to your existing browser window via Chrome DevTools Protocol (CDP).
+- 100% Non-Intrusive Background Execution: Operates strictly via internal CDP and DOM virtual events. Never hijacks or touches the user's physical mouse cursor or hardware keyboard.
 - Multi-Browser Support: Supports Microsoft Edge, Google Chrome, Brave, Arc, Vivaldi, and Opera on Windows, macOS, and Linux.
 - Interactive First-Run Onboarding: Detects installed browsers on your system and lets you choose your preferred default.
 - Flexible Browser Switching: Switch defaults on the fly via CLI, config file, or natural language prompts.
 - Fast & Lightweight: Uses persistent connections with chaining (`::`) to execute multi-step automations in a single session.
+
+---
+
+## 🛡️ 100% Non-Intrusive Background Execution
+
+Unlike desktop automation tools that take over your entire computer, **browser-cdp-skill is strictly non-intrusive**:
+
+### 🚫 No Physical Mouse or Keyboard Hijacking
+- **Never moves your hardware mouse pointer**: The operating system mouse cursor stays right where you are using it.
+- **Never sends OS hardware keystrokes**: No `SendInput` (Windows), `CGEventPost` (macOS), or `xdotool` (Linux).
+- **Zero workflow disruption**: You can freely type in your code editor, chat on messaging apps, game, or browse other sites while the AI agent navigates, clicks, and fills forms simultaneously.
+
+### 🌐 Technical Difference: CDP vs Desktop GUI Automation
+Traditional tools like **PyAutoGUI**, **RobotJS**, **nut.js**, or AutoHotkey hook into the operating system's global event queue. They require the browser window to be focused in the foreground, and any accidental movement of your mouse or keystroke will break the automation or mess up your current active window.
+
+In contrast, **browser-cdp-skill** communicates exclusively via a local TCP WebSocket (`http://127.0.0.1:9222`) directly with Chromium's internal engine:
+
+| Metric | Desktop GUI Automation (PyAutoGUI, RobotJS) | browser-cdp-skill (CDP) |
+|---|---|---|
+| **Control Layer** | OS Hardware Event Queue (`SendInput`, etc.) | Chromium DevTools Protocol (CDP WebSocket) |
+| **Mouse Cursor** | Moves physical pointer across screen | **Zero movement**; virtual coordinates inside renderer |
+| **Keyboard Input** | Types into whichever window has OS focus | **Targeted DOM dispatch**; isolated to specific element |
+| **Window State** | Must be focused, active, and visible | **Background safe**, minimized, or behind other windows |
+| **User Interference** | Clashes immediately if user types or clicks | **100% safe**: User works concurrently without interruption |
+| **Window Focus** | Constant focus stealing required | **Zero focus stealing**; background sessions via `Target` domain |
 
 ---
 
