@@ -1,0 +1,26 @@
+{
+  "name": "browser-cdp-skill",
+  "version": "1.0.0",
+  "description": "Multi-browser automation via Chrome DevTools Protocol (CDP) for AI agents",
+  "main": "cdp-bridge.js",
+  "scripts": {
+    "test": "node cdp-bridge.js list-installed"
+  },
+  "keywords": [
+    "browser",
+    "cdp",
+    "playwright",
+    "edge",
+    "chrome",
+    "brave",
+    "automation",
+    "ai-agent",
+    "claude-skill",
+    "zcode-skill"
+  ],
+  "author": "emerilansel-jpg",
+  "license": "MIT",
+  "dependencies": {
+    "playwright": "^1.40.0"
+  }
+}

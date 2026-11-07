@@ -1,0 +1,76 @@
+{
+  "win32": {
+    "edge": [
+      "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+      "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe",
+      "%LOCALAPPDATA%\\Microsoft\\Edge\\Application\\msedge.exe"
+    ],
+    "chrome": [
+      "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+      "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+      "%LOCALAPPDATA%\\Google\\Chrome\\Application\\chrome.exe"
+    ],
+    "brave": [
+      "C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe",
+      "C:\\Program Files (x86)\\BraveSoftware\\Brave-Browser\\Application\\brave.exe",
+      "%LOCALAPPDATA%\\BraveSoftware\\Brave-Browser\\Application\\brave.exe"
+    ],
+    "arc": [
+      "%LOCALAPPDATA%\\Microsoft\\WindowsApps\\Arc.exe",
+      "%LOCALAPPDATA%\\Arc\\Application\\arc.exe"
+    ],
+    "vivaldi": [
+      "%LOCALAPPDATA%\\Vivaldi\\Application\\vivaldi.exe",
+      "C:\\Program Files\\Vivaldi\\Application\\vivaldi.exe",
+      "C:\\Program Files (x86)\\Vivaldi\\Application\\vivaldi.exe"
+    ],
+    "opera": [
+      "%LOCALAPPDATA%\\Programs\\Opera\\launcher.exe",
+      "C:\\Program Files\\Opera\\launcher.exe"
+    ]
+  },
+  "darwin": {
+    "edge": [
+      "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge"
+    ],
+    "chrome": [
+      "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+    ],
+    "brave": [
+      "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser"
+    ],
+    "arc": [
+      "/Applications/Arc.app/Contents/MacOS/Arc"
+    ],
+    "vivaldi": [
+      "/Applications/Vivaldi.app/Contents/MacOS/Vivaldi"
+    ],
+    "opera": [
+      "/Applications/Opera.app/Contents/MacOS/Opera"
+    ]
+  },
+  "linux": {
+    "edge": [
+      "/usr/bin/microsoft-edge",
+      "/usr/bin/microsoft-edge-stable",
+      "/usr/bin/microsoft-edge-dev"
+    ],
+    "chrome": [
+      "/usr/bin/google-chrome",
+      "/usr/bin/google-chrome-stable",
+      "/usr/bin/chromium",
+      "/usr/bin/chromium-browser"
+    ],
+    "brave": [
+      "/usr/bin/brave-browser",
+      "/usr/bin/brave"
+    ],
+    "vivaldi": [
+      "/usr/bin/vivaldi",
+      "/usr/bin/vivaldi-stable"
+    ],
+    "opera": [
+      "/usr/bin/opera"
+    ]
+  }
+}
