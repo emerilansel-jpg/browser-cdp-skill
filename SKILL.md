@@ -64,13 +64,13 @@ Or check if `browser.config.json` exists.
 ### Step 2: If NOT configured (First-Run)
 1. Run `node scripts/cdp-bridge.js list-installed` to see which browsers exist on the machine.
 2. **Ask the user** which browser they prefer:
-   > *"Skill browser belum dikonfigurasi. Terdeteksi browser berikut di sistem: [Edge, Chrome, Brave]. Kamu mau pakai browser yang mana untuk otomatisasi?"*
+   > *"Browser skill is not configured yet. The following browsers were detected on your system: [Edge, Chrome, Brave]. Which browser would you like to use for automation?"*
 3. Once the user replies, save their choice:
    ```bash
    node scripts/cdp-bridge.js set-browser <edge|chrome|brave|arc|vivaldi>
    ```
 4. Inform the user:
-   > *"Browser default telah disetel ke `<choice>`. Kamu bisa ganti kapan saja dengan menjalankan `node scripts/cdp-bridge.js set-browser <nama>` atau bilang ke saya."*
+   > *"Default browser has been set to `<choice>`. You can change it at any time by running `node scripts/cdp-bridge.js set-browser <name>` or simply asking me."*
 
 ---
 
@@ -78,7 +78,7 @@ Or check if `browser.config.json` exists.
 
 The user can change their preferred browser at any time via:
 
-1. **Agent Natural Language**: User says *"Ganti browser ke Chrome"* -> Agent runs:
+1. **Agent Natural Language**: User says *"Switch browser to Chrome"* -> Agent runs:
    ```bash
    node scripts/cdp-bridge.js set-browser chrome
    ```

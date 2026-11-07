@@ -120,7 +120,7 @@ node cdp-bridge.js set-browser vivaldi
 ### Method 2: Natural Language with AI Agent
 
 Simply instruct your agent:
-> "Ganti browser ke Chrome" or "Switch my default browser to Brave"
+> "Switch browser to Chrome" or "Switch my default browser to Brave"
 
 The agent will execute `node scripts/cdp-bridge.js set-browser <browser>` and confirm the update.
 
