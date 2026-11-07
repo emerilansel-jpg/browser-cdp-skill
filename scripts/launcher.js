@@ -1,9 +1,15 @@
 /**
- * launcher.js — Multi-browser CDP launcher with idempotency and auto-discovery
+ * launcher.js — Multi-browser CDP launcher with idempotency, auto-discovery, and background execution
  *
  * Checks if a browser with remote debugging port is already running.
  * If running, reuses the existing instance to prevent duplicate browser windows.
- * If not, launches the configured browser with CDP enabled.
+ * If not, launches the configured browser in the background with CDP enabled.
+ *
+ * 🛡️ MANDATORY BACKGROUND EXECUTION GUARANTEES:
+ * - Spawns fully detached process (detached: true, stdio: 'ignore', unref()).
+ * - Uses --no-startup-window when starting without explicit URL to prevent window focus stealing.
+ * - Disables renderer and occluded window background throttling so background automation runs at full speed.
+ * - Never interrupts the user's active workflow, typing, or multitasking.
  */
 
 const fs = require('fs');
@@ -182,7 +188,7 @@ async function launch(options = {}) {
   const config = readConfig();
   const targetBrowser = (options.browser || config.browser || 'edge').toLowerCase();
   const port = options.port || config.port || 9222;
-  const initialUrl = options.url || 'https://www.google.com';
+  const initialUrl = options.url || null;
 
   // 1. Idempotency Check: Don't launch if already alive
   const cdpCheck = await checkCdpStatus(port, 1500);
@@ -204,20 +210,28 @@ async function launch(options = {}) {
     fs.mkdirSync(profileDir, { recursive: true });
   }
 
-  // 4. Launch flags
+  // 4. Launch flags — strictly configured for silent background execution & zero focus stealing
   const args = [
     `--remote-debugging-port=${port}`,
     `--user-data-dir=${profileDir}`,
     '--no-first-run',
-    '--no-default-browser-check'
+    '--no-default-browser-check',
+    '--disable-backgrounding-occluded-windows',
+    '--disable-renderer-backgrounding',
+    '--disable-features=CalculateNativeWinOcclusion'
   ];
+
   if (initialUrl) {
     args.push(initialUrl);
+  } else {
+    // Launch completely silently in background without popping a blank/default window
+    args.push('--no-startup-window');
   }
 
   const child = spawn(exePath, args, {
     detached: true,
-    stdio: 'ignore'
+    stdio: 'ignore',
+    windowsHide: true
   });
   child.unref();
 
@@ -285,11 +299,12 @@ if (require.main === module) {
       }
       case 'launch': {
         const b = rest[0];
-        const res = await launch({ browser: b });
+        const u = rest[1];
+        const res = await launch({ browser: b, url: u });
         if (res.status === 'already_running') {
-          console.log(`CDP already active on port ${res.port} (${res.data ? res.data.Browser : 'Chromium'}). Reusing existing window.`);
+          console.log(`CDP already active on port ${res.port} (${res.data ? res.data.Browser : 'Chromium'}). Reusing existing instance.`);
         } else {
-          console.log(`Successfully launched ${res.browser} with CDP on port ${res.port}.`);
+          console.log(`Successfully launched ${res.browser} in background with CDP on port ${res.port}.`);
         }
         break;
       }

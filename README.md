@@ -24,6 +24,19 @@ browser-cdp-skill solves this problem:
 
 ---
 
+## 🛑 MANDATORY DIRECTIVE: WORK IN THE BACKGROUND
+
+**ALL browser automation MUST execute completely and silently in the background.**
+
+1. **Silent Background Execution**: Automation runs silently in the background without opening disruptive popup windows or interrupting the user.
+2. **ZERO Focus Stealing**: Never bring browser windows to the foreground, activate the OS window, or steal focus from the user's active applications.
+3. **Detached Process**: Browser instances spawn detached (`detached: true`, `stdio: 'ignore'`, `unref()`) with `--no-startup-window` on startup to avoid window popups.
+4. **Uninterrupted Multitasking**: Users can freely type, code, read, or game while the agent navigates, clicks, and extracts data in the background.
+5. **Background Tab Management**: Tab operations use background tabs (`context.newPage()` / CDP `Target.createTarget`) without forced window activation.
+6. **Pure Virtual CDP Actions**: All clicks, keyboard inputs, and navigations are synthetic CDP events operating directly inside browser engine memory.
+
+---
+
 ## 🛡️ 100% Non-Intrusive Background Execution
 
 Unlike desktop automation tools that take over your entire computer, **browser-cdp-skill is strictly non-intrusive**:

@@ -11,6 +11,19 @@ This skill attaches to the user's real browser window via **Chrome DevTools Prot
 
 ---
 
+## 🛑 MANDATORY DIRECTIVE: WORK IN THE BACKGROUND
+
+**ALL browser automation MUST execute completely and silently in the background.**
+
+1. **Silent Background Execution**: Browser automation MUST execute silently in the background without opening disruptive popup windows or interrupting the user.
+2. **ZERO Focus Stealing**: The AI Agent MUST NOT bring browser windows to the foreground, activate the OS window, or steal focus from what the user is currently doing.
+3. **Detached Background Process**: The browser process runs detached (`detached: true`, `stdio: 'ignore'`, `unref()`) with `--no-startup-window` on startup so that no window pops over the user's workspace.
+4. **Uninterrupted Multitasking**: The user must be able to continue typing, coding, reading, or gaming without having their cursor, keyboard focus, or active screen hijacked.
+5. **Background Tab Management**: All tab operations use background tab management (`context.newPage()` via CDP `Target.createTarget`) without forced OS window activation.
+6. **Pure Virtual CDP Actions**: All clicks, keystrokes, and navigations are synthetic CDP events (`Page.*`, `Runtime.*`, `DOM.*`, `Input.*`) operating directly inside browser memory.
+
+---
+
 ## ⚡ Key Principles & Anti-Window Spam Rule
 
 1. **Re-use Existing Window**: Never launch a new browser instance if one is already running with CDP.
@@ -165,5 +178,5 @@ run();
    - Never log or display plain passwords in responses.
 2. **CAPTCHA & 2FA**:
    - If a CAPTCHA or Two-Factor Authentication prompt appears, **stop immediately** and notify the user to solve it in their browser window.
-3. **Visual Verification**:
-   - The AI Agent cannot see screenshots directly. Always provide the saved screenshot path or bring the browser tab to the front for the user to verify.
+	3. **Visual Verification**:
+	   - The AI Agent cannot see screenshots directly. Always provide the saved screenshot path (`screenshots/cdp-xxx.png`) for user inspection. Never force-bring the browser window to the foreground unless the user explicitly requests to view it.

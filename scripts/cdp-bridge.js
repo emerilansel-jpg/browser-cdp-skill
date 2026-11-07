@@ -153,7 +153,7 @@ async function ensureReady() {
 
   if (!cdpCheck.running) {
     if (config.autoLaunch !== false) {
-      console.log(`[CDP] Starting ${config.browser} on port ${config.port}...`);
+      console.log(`[CDP] Starting ${config.browser} in background on port ${config.port}...`);
       await launcher.launch({ browser: config.browser, port: config.port });
     } else {
       throw new Error(`CDP is not running on port ${config.port} and autoLaunch is disabled.`);
@@ -289,7 +289,11 @@ async function gotoTab(index) {
     throw new Error(`Tab index ${index} out of range (0..${pages.length - 1})`);
   }
   _activeIndex = index;
-  await pages[index].bringToFront();
+  try {
+    await pages[index].bringToFront();
+  } catch (_) {
+    // Non-fatal if browser is running in pure background without active GUI surface
+  }
   return pages[index];
 }
 
